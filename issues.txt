@@ -1,4 +1,0 @@
-1. Find able to get working by running zookeeper only with druid not the one with Kafka
-2. Ran druid with the following:
---network="host"
-3. 
