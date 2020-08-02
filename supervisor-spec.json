@@ -8,7 +8,7 @@
 				"type": "schema_inline",
 				"subjectAndIdConverter": {
 					"type": "avro_1124",
-					"topic": "kafka:9092"
+					"topic": "localhost:9092"
 				},
 				"schema": {
 					"namespace": "io.druid.data",
@@ -196,7 +196,7 @@
 	"ioConfig": {
 		"topic": "divolte",
 		"consumerProperties": {
-			"bootstrap.servers": "kafka:9092"
+			"bootstrap.servers": "localhost:9092"
 		},
 		"taskCount": 1,
 		"replicas": 1,
