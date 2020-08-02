@@ -1,0 +1,66 @@
+version: "3"
+services:
+
+  # Druid container
+  druid:
+    build: ./docker-druid
+    container_name: druid
+    ports:
+      - '2181:2181'
+      - 8081:8081
+      - 8082:8082
+      - 8888:8888
+    network_mode: "host"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  # Kafka
+  kafka:
+    image: 'bitnami/kafka:2'
+    container_name: kafka
+    network_mode: "host"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=localhost:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,INTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://localhost:29092,PLAINTEXT_HOST://localhost:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:29092,PLAINTEXT_HOST://localhost:9092
+    depends_on:
+      - druid
+
+  # Divolte container
+  divolte:
+    image: divolte/divolte-collector
+    container_name: divolte
+    environment:
+      DIVOLTE_KAFKA_BROKER_LIST: localhost:9092
+    volumes:
+      - ./conf/divolte/:/opt/divolte/divolte-collector/conf/
+    network_mode: "host"
+    ports:
+      - 8290:8290
+    depends_on:
+      - kafka
+
+  # Superset container
+  superset:
+    image: amancevice/superset:0.18.5
+    container_name: superset
+    network_mode: "host"
+    ports:
+      - 8088:8088
+
+  # Superset container
+  app:
+    build: app/
+    container_name: app
+    network_mode: "host"
+    ports:
+      - 8095:8095
+
+  kafka-tools:
+    image: confluentinc/cp-kafka:5.4.0
+    hostname: kafka-tools
+    container_name: kafka-tools
+    command: ["tail", "-f", "/dev/null"]
+    network_mode: "host"
