@@ -12,4 +12,4 @@ May review how to close these extra ports and get this example working as origin
 4. Changed supervisor-spec.json to use localhost
 5. Updated app/index.html to add http:// to find divolte url locally
 6. Changed app port to 8095 to prevent conflict with port 8090 orignally used in example, but which conflicts with port in https://github.com/Fokko/docker-druid
-7. 
+7. Added additional images to HTML page and type field to Divolte
