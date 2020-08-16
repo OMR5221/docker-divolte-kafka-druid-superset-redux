@@ -26,20 +26,23 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="http://localhost:8290/divolte.js" defer async></script>
       <script>
-	var techArray = [
-                "druid",
-                "flink",
-                "hadoop",
-                "kafka",
-                "scala",
-                "spark",
-                "airflow",
-                "cassandra",
-		"dagster",
-		"python",
-		"great_expectations",
-		"dbt",
-		"beam"];
+	      var techMap = {
+		"druid": "Tool",
+		"flink": "Tool",
+		"hadoop": "Tool",
+		"kafka": "Tool",
+		"scala": "Language",
+		"spark": "Tool",
+		"airflow": "Tool",
+		"cassandra": "Database",
+		"dagster": "Tool",
+		"python": "Language",
+		"great_expectations": "Library",
+		"dbt": "Tool",
+		"beam": "Tool"
+	      };
+
+	/*
         function shuffle(array) {
           var currentIndex = array.length, temporaryValue, randomIndex;
           while (0 !== currentIndex) {
@@ -51,17 +54,19 @@
           }
           return array;
         }
+	*/
 
         $(document).ready(function() {
-            shuffle(techArray).forEach(function(element) {
-                $('#imageContainer').append('<div class="col-xs-6 col-md-3"><a href="#" technology="' + element + '" class="thumbnail"><img src="images/' + element + '.png"></a></div>');
+	   Object.keys(techMap).forEach(key => {
+             $('#imageContainer').append('<div class="col-xs-6 col-md-3"><a href="#" technology="' + key + '" type="' + techMap[key] + '" class="thumbnail"><img src="images/' + key + '.png"></a></div>');
             });
 
             $('a.thumbnail').click(function (e) {
-                var elementClicked = $(this).attr('technology');
-                console.log("Clicked on: " + elementClicked);
+		var techName = $(this).attr('technology');
+                var techType = $(this).attr('type');
+                console.log("Clicked on: " + techName);
 
-                divolte.signal('myCustomEvent', { technology: elementClicked });
+                divolte.signal('myCustomEvent', { technology: techName, type: techType });
 
                 // custom handling here
                 e.preventDefault();

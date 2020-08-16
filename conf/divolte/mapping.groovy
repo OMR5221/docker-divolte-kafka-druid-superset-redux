@@ -28,5 +28,4 @@ mapping {
     map ua.osVendor() onto 'userAgentOsVendor'
 
     map eventParameter('technology') onto 'technology'
-    map eventParameter('type') onto 'type'
 }
