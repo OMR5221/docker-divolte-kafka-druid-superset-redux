@@ -13,3 +13,6 @@ May review how to close these extra ports and get this example working as origin
 5. Updated app/index.html to add http:// to find divolte url locally
 6. Changed app port to 8095 to prevent conflict with port 8090 orignally used in example, but which conflicts with port in https://github.com/Fokko/docker-druid
 7. Added additional images to HTML page and type field to Divolte
+8. EC2: 
+* Need an EC2 with 4 cores at least and need to set Inbound Rules for all ports (8888,8088,8095,9092,8081,8082)
+* Set url for index.html site to IPv4 of EC2 
